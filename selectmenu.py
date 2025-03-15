@@ -44,8 +44,9 @@ def info(f):
         print("[1] Sync from cloud")
         print("[2] Sync to cloud")
         print("[3] Edit config (COMING SOON)")
-        print("[4] Help")
-        print("[5] RESET TO DEFAULT (DON'T DO THIS IF YOU DON'T KNOW WHAT YOU ARE DOING)")
+        print("[4] Add files, dir")
+        print("[5] Help")
+        print("[6] RESET TO DEFAULT (DON'T DO THIS IF YOU DON'T KNOW WHAT YOU ARE DOING)")
         print("[X] Exit")
 
     userinput = input("Select an option: ").strip().upper()
@@ -81,12 +82,18 @@ def optioncheck(option, f):
         optioncheck(info(f), f)
 
     elif option == "4":
+        print(f"(Feature in progress)")
+        wait(2)
+        os.system("clear" if os.name != "nt" else "cls")
+        optioncheck(info(f), f)
+
+    elif option == "5":
         print(f"Goto {docurl} for help!")
         wait(3)
         os.system("clear" if os.name != "nt" else "cls")
         optioncheck(info(f), f)
 
-    elif option == "5" and f == "true":
+    elif option == "6" and f == "true":
         print("Are you sure you want to reset? It may break the code. [Y/N]")
         userinput = input().strip().upper()
         if userinput == "Y":
