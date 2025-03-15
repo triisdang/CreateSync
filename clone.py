@@ -52,11 +52,15 @@ except PermissionError:
 except Exception as e:
     print(f"An error occurred: {e}")
 file_path = f"./CONFIG/{GITHUBNAMEREPO}/script/info.txt"
-
 os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
 with open(file_path, "w") as f:
     f.write("test")
+file_path = f"./CONFIG/{GITHUBNAMEREPO}/script/linked.txt"
+with open(file_path, "w") as f:
+    f.write("test")
+    f.write("")
+
 
 git_push(GITHUBNAMEREPO,f"CONFIG/{GITHUBNAMEREPO}","Update.")
 

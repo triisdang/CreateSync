@@ -1,5 +1,6 @@
 # package.py
 import git 
+import json
 
 def logo() :
     print("┏┓         ┏┓     ")
@@ -25,3 +26,13 @@ def git_push(repo,repo_path,commit_message):
         print("Changes pushed successfully.")
     except Exception as e:
         print(f"Error pushing: {e}")
+
+
+
+def merge_lists(list1, list2):
+    """Merges two lists."""
+    return list1 + list2
+
+def read_list(lst, index):
+    """Reads a value at a specific index from a list."""
+    return lst[index] if 0 <= index < len(lst) else None

@@ -5,12 +5,11 @@ from time import sleep as wait
 import sys
 from packages.package import *
 
-
 app_version = "1.0.0"
 docurl = "https://github.com/triisdang/CreateSync/wiki"
 load_dotenv()
 github_name = os.getenv('GITHUBUSER')
-
+github_repo = os.getenv('GITHUBNAMEREPO')
 # Read config file
 try:
     with open("./CONFIG/info.txt") as f:
@@ -40,26 +39,27 @@ def info(f):
         print("[2] Sync to cloud")
         print("[3] Edit config (COMING SOON)")
         print("[4] Add files, dir")
-        print("[5] Help")
-        print("[6] RESET TO DEFAULT (DON'T DO THIS IF YOU DON'T KNOW WHAT YOU ARE DOING)")
+        print("[5] Apply")
+        print("[6] Help")
+        print("[7] RESET TO DEFAULT (DON'T DO THIS IF YOU DON'T KNOW WHAT YOU ARE DOING)")
         print("[X] Exit")
 
     userinput = input("Select an option: ").strip().upper()
     
-    if userinput in ["1", "2", "3", "4", "5","6", "X"]:
+    if userinput in ["1", "2", "3", "4", "5","6","7", "X"]:
         return userinput
     else:
         print("Unknown option, try again!")
         wait(3)
         os.system("clear" if os.name != "nt" else "cls")
         return info(f)
-
 def optioncheck(option, f):
     if option == "1":
         if f == "false":
             subprocess.run(["python3", "clone.py"])
         else:
-            print("Syncing from cloud... (Feature in progress)")
+            print("Syncing from cloud...")
+            git_pull(github_repo,f'./CONFIG/{github_repo}')
             wait(2)
             os.system("clear" if os.name != "nt" else "cls")
             optioncheck(info(f), f)
@@ -77,7 +77,10 @@ def optioncheck(option, f):
         optioncheck(info(f), f)
 
     elif option == "4":
-        print(f"(Feature in progress)")
+        print(f"LINK DIR/FILE")
+        file =input("Copy the directory and paste it here : ")
+        with open(f"./CONFIG/{github_repo}/script/linked.txt") as f :
+            f.write(merge_lists(open(f"./CONFIG/{github_repo}/.txt", "r"), ))
         wait(2)
         os.system("clear" if os.name != "nt" else "cls")
         optioncheck(info(f), f)
