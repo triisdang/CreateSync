@@ -3,6 +3,7 @@ import os
 import git
 import subprocess
 from time import sleep as wait
+from packages.package import *
 
 load_dotenv()
 
@@ -41,5 +42,22 @@ except Exception as e:
 
 with open(CONFIG_PATH, "w") as ink:
     ink.write("true")
+
+try:
+    os.mkdir(f"./CONFIG/{GITHUBNAMEREPO}/script")
+except FileExistsError:
+    print(f"Directory '{GITHUBNAMEREPO}/script' already exists.")
+except PermissionError:
+    print(f"Permission denied: Unable to create '{GITHUBNAMEREPO}/script'.")
+except Exception as e:
+    print(f"An error occurred: {e}")
+file_path = f"./CONFIG/{GITHUBNAMEREPO}/script/info.txt"
+
+os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+with open(file_path, "w") as f:
+    f.write("test")
+
+git_push(GITHUBNAMEREPO,f"CONFIG/{GITHUBNAMEREPO}","Update.")
 
 subprocess.run(["python3", "selectmenu.py"])

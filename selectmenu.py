@@ -27,7 +27,7 @@ def info(f):
     print(f"Welcome, {github_name}")
     print("Welcome to CreateSync. To get started, go to:")
     print(docurl, "\n")
-
+    print(f"VERSION {app_version}")
     if f == "false":
         print("[1] Clone repo")
         print("[2] Sync from cloud")
@@ -46,7 +46,7 @@ def info(f):
 
     userinput = input("Select an option: ").strip().upper()
     
-    if userinput in ["1", "2", "3", "4", "5", "X"]:
+    if userinput in ["1", "2", "3", "4", "5","6", "X"]:
         return userinput
     else:
         print("Unknown option, try again!")
