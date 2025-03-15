@@ -1,9 +1,10 @@
-# selectmenu.py
 from dotenv import load_dotenv
 import os
 import subprocess
 from time import sleep as wait
 import sys
+import json
+import shutil
 from packages.package import *
 
 app_version = "1.0.0"
@@ -24,6 +25,56 @@ except FileNotFoundError:
     ink = "false"
 
 os.system("clear" if os.name != "nt" else "cls")
+
+def sync_from_cloud():
+    shared_folder = f"./CONFIG/{github_repo}/shared"
+    os.makedirs(shared_folder, exist_ok=True)
+    linked_path = f"./CONFIG/{github_repo}/scripts/linked.txt"
+    try:
+        with open(linked_path, "r") as f:
+            linked_list = json.load(f)
+    except Exception:
+        linked_list = []
+    for item in linked_list:
+        dest_path = os.path.join(f"./CONFIG/{github_repo}", item)
+        src_path = os.path.join(shared_folder, os.path.basename(item))
+        if not os.path.exists(dest_path):
+            if os.path.exists(src_path):
+                if os.path.isdir(src_path):
+                    shutil.copytree(src_path, dest_path)
+                elif os.path.isfile(src_path):
+                    shutil.copy2(src_path, dest_path)
+                print(f"Synced {item} from shared folder.")
+            else:
+                print(f"No shared copy found for {item}.")
+        else:
+            print(f"{item} already exists in repo.")
+
+def apply_linked():
+    shared_folder = f"./CONFIG/{github_repo}/shared"
+    os.makedirs(shared_folder, exist_ok=True)
+    linked_path = f"./CONFIG/{github_repo}/scripts/linked.txt"
+    try:
+        with open(linked_path, "r") as f:
+            linked_list = json.load(f)
+    except Exception:
+        linked_list = []
+    for item in linked_list:
+        src_path = os.path.join(f"./CONFIG/{github_repo}", item)
+        dest_path = os.path.join(shared_folder, os.path.basename(item))
+        if not os.path.exists(src_path):
+            print(f"Source {item} does not exist in repo.")
+        else:
+            if os.path.exists(dest_path):
+                if os.path.isdir(dest_path):
+                    shutil.rmtree(dest_path)
+                else:
+                    os.remove(dest_path)
+            if os.path.isdir(src_path):
+                shutil.copytree(src_path, dest_path)
+            elif os.path.isfile(src_path):
+                shutil.copy2(src_path, dest_path)
+            print(f"Applied {item} to shared folder.")
 
 def info(f):
     logo()
@@ -63,37 +114,42 @@ def optioncheck(option, f):
         else:
             print("Syncing from cloud...")
             git_pull(github_repo, f'./CONFIG/{github_repo}')
+            sync_from_cloud()
             wait(2)
             os.system("clear" if os.name != "nt" else "cls")
             optioncheck(info(f), f)
     elif option == "2":
-        print("Syncing to cloud... (Feature in progress)")
+        print("Syncing to cloud...")
         wait(2)
         os.system("clear" if os.name != "nt" else "cls")
         optioncheck(info(f), f)
     elif option == "3":
-        print("Editing config... (Feature in progress)")
+        print("Editing config... (Feature working in progress)")
         wait(2)
         os.system("clear" if os.name != "nt" else "cls")
         optioncheck(info(f), f)
     elif option == "4":
         print("LINK DIR/FILE")
-        file = input("Copy the directory and paste it here: ")
+        file_input = input("Copy the directory and paste it here: ")
         file_path = f"./CONFIG/{github_repo}/scripts/linked.txt"
         ensure_file_exists(file_path)
         with open(file_path, "r+") as txt_file:
             content = txt_file.read().strip()
-            txt_file.write(merge_lists(content, file))
+            new_content = merge_lists(content, file_input)
+            txt_file.seek(0)
+            txt_file.truncate()
+            txt_file.write(new_content)
         os.system("clear" if os.name != "nt" else "cls")
         optioncheck(info(f), f)
     elif option == "5":
-        print(f"Goto {docurl} for help!")
+        print("Applying linked directories to shared folder...")
+        apply_linked()
         wait(3)
         os.system("clear" if os.name != "nt" else "cls")
         optioncheck(info(f), f)
     elif option == "6":
-        print(f"(Feature in progress)")
-        wait(4)
+        print(f"Goto {docurl} for help!")
+        wait(3)
         os.system("clear" if os.name != "nt" else "cls")
         optioncheck(info(f), f)
     elif option == "7" and f == "true":
@@ -103,6 +159,6 @@ def optioncheck(option, f):
             with open("./CONFIG/info.txt", "w") as f:
                 f.write("false")
         os.system("clear" if os.name != "nt" else "cls")
-        optioncheck(info(f), f)
+        exit()
 
 optioncheck(info(ink), ink)

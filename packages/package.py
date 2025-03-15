@@ -29,7 +29,14 @@ def ensure_file_exists(file_path):
         print(f"File not found: {file_path}. Creating it now...")
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         open(file_path, "w").close()
-def merge_lists(list1, list2):
-    return list1 + list2
+def merge_lists(list_str, new_item):
+    try:
+        arr = json.loads(list_str) if list_str else []
+    except Exception:
+        arr = []
+    if not isinstance(arr, list):
+        arr = []
+    arr.append(new_item)
+    return json.dumps(arr)
 def read_list(lst, index):
     return lst[index] if 0 <= index < len(lst) else None
