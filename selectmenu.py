@@ -1,3 +1,4 @@
+# selectmenu.py
 from dotenv import load_dotenv
 import os
 import subprocess
@@ -10,16 +11,19 @@ docurl = "https://github.com/triisdang/CreateSync/wiki"
 load_dotenv()
 github_name = os.getenv('GITHUBUSER')
 github_repo = os.getenv('GITHUBNAMEREPO')
-# Read config file
+
+def ensure_file_exists(file_path):
+    if not os.path.exists(file_path):
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        open(file_path, "w").close()
+
 try:
     with open("./CONFIG/info.txt") as f:
         ink = f.read().strip()
 except FileNotFoundError:
-    ink = "false"  # Default if file is missing
+    ink = "false"
 
 os.system("clear" if os.name != "nt" else "cls")
-
-
 
 def info(f):
     logo()
@@ -43,64 +47,62 @@ def info(f):
         print("[6] Help")
         print("[7] RESET TO DEFAULT (DON'T DO THIS IF YOU DON'T KNOW WHAT YOU ARE DOING)")
         print("[X] Exit")
-
     userinput = input("Select an option: ").strip().upper()
-    
-    if userinput in ["1", "2", "3", "4", "5","6","7", "X"]:
+    if userinput in ["1", "2", "3", "4", "5", "6", "7", "X"]:
         return userinput
     else:
         print("Unknown option, try again!")
         wait(3)
         os.system("clear" if os.name != "nt" else "cls")
         return info(f)
+
 def optioncheck(option, f):
     if option == "1":
         if f == "false":
             subprocess.run(["python3", "clone.py"])
         else:
             print("Syncing from cloud...")
-            git_pull(github_repo,f'./CONFIG/{github_repo}')
+            git_pull(github_repo, f'./CONFIG/{github_repo}')
             wait(2)
             os.system("clear" if os.name != "nt" else "cls")
             optioncheck(info(f), f)
-
     elif option == "2":
         print("Syncing to cloud... (Feature in progress)")
         wait(2)
         os.system("clear" if os.name != "nt" else "cls")
         optioncheck(info(f), f)
-
     elif option == "3":
         print("Editing config... (Feature in progress)")
         wait(2)
         os.system("clear" if os.name != "nt" else "cls")
         optioncheck(info(f), f)
-
     elif option == "4":
-        print(f"LINK DIR/FILE")
-        file =input("Copy the directory and paste it here : ")
-        with open(f"./CONFIG/{github_repo}/script/linked.txt") as f :
-            f.write(merge_lists(open(f"./CONFIG/{github_repo}/.txt", "r"), ))
-        wait(2)
+        print("LINK DIR/FILE")
+        file = input("Copy the directory and paste it here: ")
+        file_path = f"./CONFIG/{github_repo}/scripts/linked.txt"
+        ensure_file_exists(file_path)
+        with open(file_path, "r+") as txt_file:
+            content = txt_file.read().strip()
+            txt_file.write(merge_lists(content, file))
         os.system("clear" if os.name != "nt" else "cls")
         optioncheck(info(f), f)
-
     elif option == "5":
         print(f"Goto {docurl} for help!")
         wait(3)
         os.system("clear" if os.name != "nt" else "cls")
         optioncheck(info(f), f)
-
-    elif option == "6" and f == "true":
+    elif option == "6":
+        print(f"(Feature in progress)")
+        wait(4)
+        os.system("clear" if os.name != "nt" else "cls")
+        optioncheck(info(f), f)
+    elif option == "7" and f == "true":
         print("Are you sure you want to reset? It may break the code. [Y/N]")
         userinput = input().strip().upper()
         if userinput == "Y":
             with open("./CONFIG/info.txt", "w") as f:
                 f.write("false")
-        else:
-            os.system("clear" if os.name != "nt" else "cls")
-            optioncheck(info(f), f)
-
-
+        os.system("clear" if os.name != "nt" else "cls")
+        optioncheck(info(f), f)
 
 optioncheck(info(ink), ink)
