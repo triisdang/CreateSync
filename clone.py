@@ -9,7 +9,7 @@ GITHUBTOKEN = os.getenv('GITHUBTOKEN')
 GITHUBUSER = os.getenv('GITHUBUSER')
 GITHUBNAMEREPO = os.getenv('GITHUBNAMEREPO')
 
-if not GITHUBTOKEN or not GITHUBUSER or not GITHUBLINKURL:
+if not GITHUBTOKEN or not GITHUBUSER or not GITHUBNAMEREPO:
     print(f"Please read the {docurl} to continue to use Create Snyc!")
     exit(1)
 
