@@ -61,7 +61,7 @@ def info(f):
 def optioncheck(option, f):
     if option == "1":
         if f == "false":
-            subprocess.run(["python3", "pull.py"])
+            subprocess.run(["python3", "clone.py"])
         else:
             print("Syncing from cloud... (Feature in progress)")
             wait(2)
