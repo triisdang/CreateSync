@@ -3,9 +3,11 @@ import os
 import subprocess
 from time import sleep as wait
 import sys
+from packages.package import *
+
 
 app_version = "1.0.0"
-docurl = "[WIP]"
+docurl = "https://github.com/triisdang/CreateSync/wiki"
 load_dotenv()
 github_name = os.getenv('GITHUBUSER')
 
@@ -17,13 +19,6 @@ except FileNotFoundError:
     ink = "false"  # Default if file is missing
 
 os.system("clear" if os.name != "nt" else "cls")
-
-def logo() :
-    print("┏┓         ┏┓     ")
-    print("┃ ┏┓┏┓┏┓╋┏┓┗┓┓┏┏┓┏")
-    print("┗┛┛ ┗ ┗┻┗┗ ┗┛┗┫┛┗┗")
-    print("              ┛   ")
-    print("-----------------------------")
 
 
 

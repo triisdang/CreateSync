@@ -11,7 +11,7 @@ CONFIG_PATH = "./CONFIG/info.txt"
 GITHUBTOKEN = os.getenv('GITHUBTOKEN')
 GITHUBUSER = os.getenv('GITHUBUSER')
 GITHUBNAMEREPO = os.getenv('GITHUBNAMEREPO')
-docurl = "[WIP]"
+docurl = "https://github.com/triisdang/CreateSync/wiki"
 
 if not GITHUBTOKEN or not GITHUBUSER or not GITHUBNAMEREPO:
     print(f"Please read the {docurl} to continue using CreateSync!")
