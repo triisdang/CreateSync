@@ -3,8 +3,7 @@ import os
 import git
 import subprocess
 load_dotenv()
-app_version = "1.0.0"
-docurl = "[WIP]"
+
 GITHUBTOKEN = os.getenv('GITHUBTOKEN')
 GITHUBUSER = os.getenv('GITHUBUSER')
 GITHUBLINKURL = os.getenv('GITHUBLINKURL')
