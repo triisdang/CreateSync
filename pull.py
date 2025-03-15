@@ -3,6 +3,7 @@ import os
 import git
 import subprocess
 load_dotenv()
+ink = open("./CONFIG/info.txt")
 
 GITHUBTOKEN = os.getenv('GITHUBTOKEN')
 GITHUBUSER = os.getenv('GITHUBUSER')
@@ -20,4 +21,6 @@ try:
     print("Clone successful!")
 except Exception as e:
     print(f"Error cloning repository: {e}")
-subprocess.run("python uh.py")
+ink.write("true")
+subprocess.run("python3 selectmenu.py")
+subprocess.run("python selectmenu.py")
