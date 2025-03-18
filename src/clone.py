@@ -8,8 +8,8 @@ from packages.package import *
 
 load_dotenv()
 
-CONFIG_PATH = "./CONFIG/info.txt"
-
+CONFIG_PATH = f"{config}info.txt"
+config = "../config"
 GITHUBTOKEN = os.getenv('GITHUBTOKEN')
 GITHUBUSER = os.getenv('GITHUBUSER')
 GITHUBNAMEREPO = os.getenv('GITHUBNAMEREPO')
@@ -24,7 +24,7 @@ REPO_URL = f"https://{GITHUBUSER}:{GITHUBTOKEN}@github.com/{GITHUBUSER}/{GITHUBN
 print("Cloning GitHub repo...")
 
 try:
-    os.makedirs(f"./CONFIG/{GITHUBNAMEREPO}", exist_ok=True)
+    os.makedirs(f"{config}/{GITHUBNAMEREPO}", exist_ok=True)
 except PermissionError:
     print(f"Permission denied: Unable to create '{GITHUBNAMEREPO}'.")
     exit(1)
@@ -35,7 +35,7 @@ except Exception as e:
 wait(2)
 
 try:
-    git.Repo.clone_from(REPO_URL, f"./CONFIG/{GITHUBNAMEREPO}")
+    git.Repo.clone_from(REPO_URL, f"{config}/{GITHUBNAMEREPO}")
     print("Clone successful!")
     wait(4)
 except Exception as e:
@@ -45,13 +45,13 @@ except Exception as e:
 with open(CONFIG_PATH, "w") as ink:
     ink.write("true")
 
-os.makedirs(f"./CONFIG/{GITHUBNAMEREPO}/script", exist_ok=True)
-os.makedirs(f"./CONFIG/{GITHUBNAMEREPO}/scripts", exist_ok=True)
+os.makedirs(f"{config}/{GITHUBNAMEREPO}/script", exist_ok=True)
+os.makedirs(f"{config}/{GITHUBNAMEREPO}/scripts", exist_ok=True)
 
-with open(f"./CONFIG/{GITHUBNAMEREPO}/script/info.txt", "w") as f:
+with open(f"{config}/{GITHUBNAMEREPO}/script/info.txt", "w") as f:
     f.write("test")
 
-with open(f"./CONFIG/{GITHUBNAMEREPO}/scripts/linked.txt", "w") as f:
+with open(f"{config}/{GITHUBNAMEREPO}/scripts/linked.txt", "w") as f:
     f.write("[]")
 
 git_push(GITHUBNAMEREPO, f"CONFIG/{GITHUBNAMEREPO}", "Update.")

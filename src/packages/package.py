@@ -2,6 +2,7 @@
 import git
 import json
 import os
+import platform
 def logo():
     print("┏┓         ┏┓     ")
     print("┃ ┏┓┏┓┏┓╋┏┓┗┓┓┏┏┓┏")
