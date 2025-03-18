@@ -7,7 +7,7 @@ A project for syncing your files and github (ALPHA<img src="https://emoji.discad
 
 - Sync from Github (ofc)
 - Fast
-- Support Linux/MacOS
+- Support Linux/MacOS/Windows
 
 
 ## Documentation <img src="https://emoji.discadia.com/emojis/5f478b27-2a75-4523-89c5-37a8db50f1a6.gif" alt=":happy:" width="30">
