@@ -7,9 +7,8 @@ from time import sleep as wait
 from packages.package import *
 
 load_dotenv()
-
-CONFIG_PATH = f"{config}info.txt"
 config = "../config"
+CONFIG_PATH = f"{config}info.txt"
 GITHUBTOKEN = os.getenv('GITHUBTOKEN')
 GITHUBUSER = os.getenv('GITHUBUSER')
 GITHUBNAMEREPO = os.getenv('GITHUBNAMEREPO')
@@ -45,10 +44,9 @@ except Exception as e:
 with open(CONFIG_PATH, "w") as ink:
     ink.write("true")
 
-os.makedirs(f"{config}/{GITHUBNAMEREPO}/script", exist_ok=True)
 os.makedirs(f"{config}/{GITHUBNAMEREPO}/scripts", exist_ok=True)
 
-with open(f"{config}/{GITHUBNAMEREPO}/script/info.txt", "w") as f:
+with open(f"{config}/{GITHUBNAMEREPO}/scripts/info.txt", "w") as f:
     f.write("test")
 
 with open(f"{config}/{GITHUBNAMEREPO}/scripts/linked.txt", "w") as f:
@@ -56,4 +54,5 @@ with open(f"{config}/{GITHUBNAMEREPO}/scripts/linked.txt", "w") as f:
 
 git_push(GITHUBNAMEREPO, f"CONFIG/{GITHUBNAMEREPO}", "Update.")
 
-subprocess.run(["python3", "selectmenu.py"])
+selectscript = os.path.join(os.path.dirname(os.path.abspath(__file__)), "selectmenu.py")
+subprocess.run(["python3" if os.name != "nt" else "python", selectscript])
